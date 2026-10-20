@@ -15,6 +15,7 @@ func TestTemplatesValid(t *testing.T) {
 		"../../templates/inventory.yaml",
 		"../../templates/bug-tracker.yaml",
 		"../../templates/okr-tracker.yaml",
+		"../../templates/reading-list.yaml",
 	}
 	for _, tmpl := range templates {
 		t.Run(tmpl, func(t *testing.T) {

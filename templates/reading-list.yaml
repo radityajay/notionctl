@@ -1,0 +1,86 @@
+# Reading List template
+# Usage: cp templates/reading-list.yaml notionctl.yaml && notionctl plan
+# Replace every YOUR_PAGE_ID before applying.
+# Link authors and reviews from the Books database. Average Rating uses the
+# Rating values of the reviews selected in each book's reviews relation.
+# Ratings are entered on a 1-5 scale; the number property does not enforce bounds.
+version: "1"
+
+databases:
+  - name: Books
+    parent_page_id: "YOUR_PAGE_ID"
+    properties:
+      Title:
+        type: title
+      authors:
+        type: relation
+        relation: Authors
+      Genre:
+        type: select
+        options:
+          - name: Fiction
+            color: purple
+          - name: Nonfiction
+            color: blue
+          - name: Biography
+            color: orange
+          - name: Reference
+            color: gray
+      Status:
+        type: status
+        options:
+          - name: To Read
+            color: gray
+          - name: Reading
+            color: blue
+          - name: Finished
+            color: green
+          - name: Abandoned
+            color: red
+        groups:
+          - name: To-do
+            option_ids: [To Read]
+          - name: In progress
+            option_ids: [Reading]
+          - name: Complete
+            option_ids: [Finished, Abandoned]
+      Started:
+        type: date
+      Finished:
+        type: date
+      Pages:
+        type: number
+      Link:
+        type: url
+      reviews:
+        type: relation
+        relation: Reviews
+      Average Rating:
+        type: rollup
+        relation: reviews
+        rollup_property: Rating
+        function: average
+
+  - name: Authors
+    parent_page_id: "YOUR_PAGE_ID"
+    properties:
+      Name:
+        type: title
+      Website:
+        type: url
+      Notes:
+        type: rich_text
+
+  - name: Reviews
+    parent_page_id: "YOUR_PAGE_ID"
+    properties:
+      Title:
+        type: title
+      Rating:
+        type: number
+      Reviewer:
+        type: people
+      Notes:
+        type: rich_text
+      Date:
+        type: date
